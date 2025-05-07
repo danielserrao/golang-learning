@@ -7,7 +7,9 @@ Just a very simple golang app called hello to understand the most basic.
 
 ### go.mod
 
-When your code imports packages contained in other modules, you manage those dependencies through your code's own module. That module is defined by a go.mod file that tracks the modules that provide those packages. That go.mod file stays with your code, including in your source code repository.
+When your code imports packages contained in other modules, you manage those dependencies through your code's own module. 
+That module is defined by a go.mod file that tracks the modules that provide those packages. 
+That go.mod file stays with your code, including in your source code repository.
 
 
 # Steps to execute this app
