@@ -2,11 +2,12 @@ package main
 
 import (
 	"context"
+	"log"
+	"time"
+
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp"
 	sdkmetric "go.opentelemetry.io/otel/sdk/metric"
-	"log"
-	"time"
 )
 
 func main() {
@@ -17,8 +18,9 @@ func main() {
 	// 1. Create the OTLP HTTP exporter (no TLS)
 	exporter, err := otlpmetrichttp.New(
 		ctx,
-		otlpmetrichttp.WithEndpoint("localhost:4318"),
-		otlpmetrichttp.WithInsecure(), // use TLS in production
+		otlpmetrichttp.WithEndpoint("localhost:9091"), // replace with your OpenTelemetry Collector endpoint
+		otlpmetrichttp.WithURLPath("/api/v1/otlp"),    // Set the OTLP HTTP path
+		otlpmetrichttp.WithInsecure(),                 // use TLS in production
 	)
 
 	if err != nil {
@@ -34,7 +36,7 @@ func main() {
 
 	// Create a counter
 	meter := otel.Meter("simple")
-	counter, _ := meter.Int64Counter("ping_count")
+	counter, _ := meter.Int64Counter("ping_count") // You will be able to query "ping_count_total" on Prometheus and Grafana UI
 
 	for i := 1; ; i++ {
 		counter.Add(ctx, 1)
